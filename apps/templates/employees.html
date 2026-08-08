@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Employees</h2>
+
+    <a href="{{ url_for('employee') }}" class="btn btn-primary">
+        Add Employee
+    </a>
+</div>
+
+{% if employees %}
+
+<div class="table-responsive">
+
+    <table class="table table-bordered table-hover align-middle">
+
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Position</th>
+                <th>Salary</th>
+                <th>Joining Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for employee in employees %}
+
+            <tr>
+                <td>{{ employee.id }}</td>
+
+                <td>
+                    {{ employee.first_name }}
+                    {{ employee.last_name }}
+                </td>
+
+                <td>{{ employee.email }}</td>
+
+                <td>{{ employee.phone }}</td>
+
+                <td>{{ employee.position }}</td>
+
+                <td>₹{{ employee.salary }}</td>
+
+                <td>{{ employee.joining_date }}</td>
+
+                <td>
+                    <span class="badge bg-success">
+                        {{ employee.status }}
+                    </span>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-info">
+    No employees have been added yet.
+</div>
+
+{% endif %}
+
+{% endblock %}

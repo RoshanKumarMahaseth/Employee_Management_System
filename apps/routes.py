@@ -79,3 +79,9 @@ def employee():
         return redirect(url_for('dashboard'))
     return render_template('add_employee.html',title='Employee',form=form)
 
+@app.route('/employees')
+@login_required
+def employees():
+    employees = Employee.query.all()
+    return render_template('employees.html',title='Employees',employees=employees)
+
