@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField,BooleanField,ValidationError,IntegerField,DateField
+from wtforms import StringField,PasswordField,SubmitField,BooleanField,ValidationError,IntegerField,DateField,SelectField
 from wtforms.validators import DataRequired,Email,Length,EqualTo
 from apps.models import User
 
@@ -35,5 +35,6 @@ class EmployeeForm(FlaskForm):
     position = StringField('Position',validators=[DataRequired(),Length(min=2,max=50)])
     salary = IntegerField('Salary',validators=[DataRequired()])
     joining_date = DateField('Joining Date',validators=[DataRequired()])
+    status = SelectField('Status',choices=[('Active','Active'),('Inactive','Inactive')],validators=[DataRequired()])
     submit = SubmitField('Submit')
 

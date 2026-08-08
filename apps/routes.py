@@ -68,7 +68,10 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html',title='Dashboard')
+    total_employees = Employee.query.all()
+    active_employees = Employee.query.filter_by(status='Active').count()
+    total_users = User.query.count()
+    return render_template('dashboard.html',title='Dashboard',total_employees=total_employees,active_employees=active_employees,total_users=total_users)
 
 
 @app.route('/employee',methods=['GET','POST'])
@@ -83,7 +86,8 @@ def employee():
             phone=form.phone.data,
             position=form.position.data,
             salary=form.salary.data,
-            joining_date=form.joining_date.data
+            joining_date=form.joining_date.data,
+            status=form.status.data
         )
         db.session.add(employee)
         db.session.commit()
@@ -94,8 +98,27 @@ def employee():
 @app.route('/employees')
 @login_required
 def employees():
-    employees = Employee.query.all()
-    return render_template('employees.html',title='Employees',employees=employees)
+
+    search = request.args.get('search', '')
+
+    if search:
+        employees = Employee.query.filter(
+            db.or_(
+                Employee.first_name.ilike(f'%{search}%'),
+                Employee.last_name.ilike(f'%{search}%'),
+                Employee.email.ilike(f'%{search}%'),
+                Employee.position.ilike(f'%{search}%')
+            )
+        ).all()
+    else:
+        employees = Employee.query.all()
+
+    return render_template(
+        'employees.html',
+        title='Employees',
+        employees=employees,
+        search=search
+    )
 
 
 @app.route('/employee/<int:employee_id>/edit', methods=['GET', 'POST'])
@@ -119,6 +142,7 @@ def edit_employee(employee_id):
         employee.position = form.position.data
         employee.salary = form.salary.data
         employee.joining_date = form.joining_date.data
+        employee.status = form.status.data
 
         db.session.commit()
 
@@ -147,16 +171,27 @@ def users():
 
 
 
-@app.route('/users/<int:user_id>/role',methods=['GET','POST'])
+@app.route('/user/<int:user_id>/role', methods=['POST'])
 @admin_required
 def change_role(user_id):
-    user=User.query.get_or_404(user_id)
+
+    user = User.query.get_or_404(user_id)
 
     if user.role == 'admin':
+
+        admin_count = User.query.filter_by(role='admin').count()
+
+        if admin_count == 1:
+            flash('You cannot remove the last admin.', 'danger')
+            return redirect(url_for('users'))
+
         user.role = 'employee'
+
     else:
         user.role = 'admin'
+
     db.session.commit()
 
-    flash('user role has been updated successfully!','success')
+    flash('User role has been updated successfully!', 'success')
+
     return redirect(url_for('users'))

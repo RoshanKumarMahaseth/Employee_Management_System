@@ -33,37 +33,62 @@
                 <td>{{ user.email }}</td>
 
                 <td>
+
                     {% if user.role == 'admin' %}
+
                         <span class="badge bg-danger">
                             Admin
                         </span>
+
                     {% else %}
+
                         <span class="badge bg-primary">
                             Employee
                         </span>
+
                     {% endif %}
+
                 </td>
 
                 <td>
 
-                    <form action="{{ url_for('change_role', user_id=user.id) }}"
-                          method="POST">
+                    {% if user.role == 'admin' %}
 
-                        {% if user.role == 'admin' %}
+                        {% if users | selectattr('role', 'equalto', 'admin') | list | length > 1 %}
 
-                            <button type="submit" class="btn btn-sm btn-warning">
-                                Make Employee
-                            </button>
+                            <form action="{{ url_for('change_role', user_id=user.id) }}"
+                                  method="POST">
+
+                                <button type="submit"
+                                        class="btn btn-sm btn-warning">
+                                    Make Employee
+                                </button>
+
+                            </form>
 
                         {% else %}
 
-                            <button type="submit" class="btn btn-sm btn-success">
-                                Make Admin
+                            <button type="button"
+                                    class="btn btn-sm btn-secondary"
+                                    disabled>
+                                Last Admin
                             </button>
 
                         {% endif %}
 
-                    </form>
+                    {% else %}
+
+                        <form action="{{ url_for('change_role', user_id=user.id) }}"
+                              method="POST">
+
+                            <button type="submit"
+                                    class="btn btn-sm btn-success">
+                                Make Admin
+                            </button>
+
+                        </form>
+
+                    {% endif %}
 
                 </td>
 
