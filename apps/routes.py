@@ -116,3 +116,13 @@ def edit_employee(employee_id):
 
     return render_template('edit_employee.html',title='Edit Employee',form=form)
 
+
+@app.route('/employee/<int:employee_id>/delete',methods=['GET','POST'])
+@login_required
+def delete_employee(employee_id):
+    employee = Employee.query.get_or_404(employee_id)
+
+    db.session.delete(employee)
+    db.session.commit()
+    flash('Employee has been deleted successfully!','success')
+    return redirect(url_for('employees'))
