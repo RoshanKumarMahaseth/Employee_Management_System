@@ -3,7 +3,19 @@ from apps import app,db,bcrypt
 from apps.forms import RegisterForm,LoginForm,EmployeeForm
 from apps.models import User,Employee
 from flask_login import login_user,current_user,logout_user,login_required
+from functools import wraps
 
+# admin checker
+
+def admin_required(f):
+    @wraps(f)
+    @login_required
+    def decorated_function(*args,**kwargs):
+        if current_user.role != 'admin':
+            flash('You do not have permission to access this page.','danger')
+            return redirect(url_for('dashboard'))
+        return f(*args,**kwargs)
+    return decorated_function
 
 
 
@@ -60,7 +72,7 @@ def dashboard():
 
 
 @app.route('/employee',methods=['GET','POST'])
-@login_required
+@admin_required
 def employee():
     form = EmployeeForm()
     if form.validate_on_submit():
@@ -87,7 +99,7 @@ def employees():
 
 
 @app.route('/employee/<int:employee_id>/edit', methods=['GET', 'POST'])
-@login_required
+@admin_required
 def edit_employee(employee_id):
 
     employee = db.session.get(Employee, employee_id)
@@ -118,7 +130,7 @@ def edit_employee(employee_id):
 
 
 @app.route('/employee/<int:employee_id>/delete',methods=['GET','POST'])
-@login_required
+@admin_required
 def delete_employee(employee_id):
     employee = Employee.query.get_or_404(employee_id)
 

@@ -6,12 +6,13 @@
 
     <h2 class="mb-0">Employees</h2>
 
-    <a href="{{ url_for('employee') }}" class="btn btn-primary">
-        Add Employee
-    </a>
+    {% if current_user.role == 'admin' %}
+        <a href="{{ url_for('employee') }}" class="btn btn-primary">
+            Add Employee
+        </a>
+    {% endif %}
 
 </div>
-
 
 {% if employees %}
 
@@ -29,7 +30,11 @@
                 <th>Salary</th>
                 <th>Joining Date</th>
                 <th>Status</th>
-                <th>Actions</th>
+
+                {% if current_user.role == 'admin' %}
+                    <th>Actions</th>
+                {% endif %}
+
             </tr>
         </thead>
 
@@ -62,6 +67,8 @@
                     </span>
                 </td>
 
+                {% if current_user.role == 'admin' %}
+
                 <td>
 
                     <a href="{{ url_for('edit_employee', employee_id=employee.id) }}"
@@ -81,6 +88,8 @@
                     </form>
 
                 </td>
+
+                {% endif %}
 
             </tr>
 
