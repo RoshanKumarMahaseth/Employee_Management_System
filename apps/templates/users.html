@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Users</h2>
+
+{% if users %}
+
+<div class="table-responsive">
+
+    <table class="table table-bordered table-hover align-middle">
+
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for user in users %}
+
+            <tr>
+
+                <td>{{ user.id }}</td>
+
+                <td>{{ user.username }}</td>
+
+                <td>{{ user.email }}</td>
+
+                <td>
+                    {% if user.role == 'admin' %}
+                        <span class="badge bg-danger">
+                            Admin
+                        </span>
+                    {% else %}
+                        <span class="badge bg-primary">
+                            Employee
+                        </span>
+                    {% endif %}
+                </td>
+
+                <td>
+
+                    <form action="{{ url_for('change_role', user_id=user.id) }}"
+                          method="POST">
+
+                        {% if user.role == 'admin' %}
+
+                            <button type="submit" class="btn btn-sm btn-warning">
+                                Make Employee
+                            </button>
+
+                        {% else %}
+
+                            <button type="submit" class="btn btn-sm btn-success">
+                                Make Admin
+                            </button>
+
+                        {% endif %}
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-info">
+    No users found.
+</div>
+
+{% endif %}
+
+{% endblock %}

@@ -138,3 +138,25 @@ def delete_employee(employee_id):
     db.session.commit()
     flash('Employee has been deleted successfully!','success')
     return redirect(url_for('employees'))
+
+@app.route('/users')
+@admin_required
+def users():
+    users = User.query.all()
+    return render_template('users.html',title='Users',users=users)
+
+
+
+@app.route('/users/<int:user_id>/role',methods=['GET','POST'])
+@admin_required
+def change_role(user_id):
+    user=User.query.get_or_404(user_id)
+
+    if user.role == 'admin':
+        user.role = 'employee'
+    else:
+        user.role = 'admin'
+    db.session.commit()
+
+    flash('user role has been updated successfully!','success')
+    return redirect(url_for('users'))
