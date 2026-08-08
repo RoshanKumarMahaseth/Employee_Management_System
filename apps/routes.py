@@ -85,3 +85,34 @@ def employees():
     employees = Employee.query.all()
     return render_template('employees.html',title='Employees',employees=employees)
 
+
+@app.route('/employee/<int:employee_id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_employee(employee_id):
+
+    employee = db.session.get(Employee, employee_id)
+
+    if employee is None:
+        flash('Employee not found.', 'danger')
+        return redirect(url_for('employees'))
+
+    form = EmployeeForm(obj=employee)
+
+    if form.validate_on_submit():
+
+        employee.first_name = form.first_name.data
+        employee.last_name = form.last_name.data
+        employee.email = form.email.data
+        employee.phone = form.phone.data
+        employee.position = form.position.data
+        employee.salary = form.salary.data
+        employee.joining_date = form.joining_date.data
+
+        db.session.commit()
+
+        flash('Employee has been updated successfully!', 'success')
+
+        return redirect(url_for('employees'))
+
+    return render_template('edit_employee.html',title='Edit Employee',form=form)
+
