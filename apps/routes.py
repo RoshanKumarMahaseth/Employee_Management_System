@@ -1,7 +1,7 @@
 from flask import render_template,redirect,url_for,request,flash
 from apps import app,db,bcrypt
-from apps.forms import RegisterForm,LoginForm
-from apps.models import User
+from apps.forms import RegisterForm,LoginForm,EmployeeForm
+from apps.models import User,Employee
 from flask_login import login_user,current_user,logout_user,login_required
 
 
@@ -57,3 +57,25 @@ def logout():
 @login_required
 def dashboard():
     return render_template('dashboard.html',title='Dashboard')
+
+
+@app.route('/employee',methods=['GET','POST'])
+@login_required
+def employee():
+    form = EmployeeForm()
+    if form.validate_on_submit():
+        employee = Employee(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            email=form.email.data,
+            phone=form.phone.data,
+            position=form.position.data,
+            salary=form.salary.data,
+            joining_date=form.joining_date.data
+        )
+        db.session.add(employee)
+        db.session.commit()
+        flash('Employee has been added successfully!','success')
+        return redirect(url_for('dashboard'))
+    return render_template('add_employee.html',title='Employee',form=form)
+

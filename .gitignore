@@ -8,9 +8,6 @@ venv/
 env/
 .venv/
 
-# Database
-instance/site.db
-
 # Environment Variables
 .env
 
