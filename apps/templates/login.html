@@ -2,14 +2,14 @@
 
 {% block content %}
 
-<div class="row justify-content-center mt-5">
+<div class="row justify-content-center">
 
-    <div class="col-md-5">
+    <div class="col-md-6">
 
-        <div class="card shadow-lg">
+        <div class="card shadow">
 
-            <div class="card-header text-center bg-primary text-white">
-                <h3>Login</h3>
+            <div class="card-header">
+                <h3 class="mb-0">Login</h3>
             </div>
 
             <div class="card-body">
@@ -19,56 +19,56 @@
                     {{ form.hidden_tag() }}
 
                     <div class="mb-3">
+
                         {{ form.email.label(class="form-label") }}
 
-                        {% if form.email.errors %}
-                            {{ form.email(class="form-control is-invalid") }}
+                        {{ form.email(class="form-control") }}
 
-                            <div class="invalid-feedback">
-                                {% for error in form.email.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
+                        {% for error in form.email.errors %}
+                            <div class="text-danger small">
+                                {{ error }}
                             </div>
+                        {% endfor %}
 
-                        {% else %}
-                            {{ form.email(class="form-control", placeholder="Enter your email") }}
-                        {% endif %}
                     </div>
 
                     <div class="mb-3">
+
                         {{ form.password.label(class="form-label") }}
 
-                        {% if form.password.errors %}
-                            {{ form.password(class="form-control is-invalid") }}
+                        {{ form.password(class="form-control") }}
 
-                            <div class="invalid-feedback">
-                                {% for error in form.password.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
+                        {% for error in form.password.errors %}
+                            <div class="text-danger small">
+                                {{ error }}
                             </div>
+                        {% endfor %}
 
-                        {% else %}
-                            {{ form.password(class="form-control", placeholder="Enter your password") }}
-                        {% endif %}
                     </div>
 
-                    <div class="form-check mb-3">
+                    <div class="mb-3 form-check">
+
                         {{ form.remember(class="form-check-input") }}
+
                         {{ form.remember.label(class="form-check-label") }}
+
                     </div>
 
-                    <div class="d-grid">
+                    <div class="d-grid mb-3">
+
                         {{ form.submit(class="btn btn-primary") }}
+
+                    </div>
+
+                    <div class="text-center">
+
+                        <a href="{{ url_for('reset_request') }}">
+                            Forgot Password?
+                        </a>
+
                     </div>
 
                 </form>
-
-                <hr>
-
-                <small class="text-muted">
-                    Don't have an account?
-                    <a href="{{ url_for('register') }}">Create one</a>
-                </small>
 
             </div>
 

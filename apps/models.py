@@ -1,6 +1,8 @@
+from itsdangerous import URLSafeSerializer as Serializer
 from datetime import date
 from apps import db,login_manager
-from flask_login import UserMixin
+from flask_login import UserMixin,current_user
+from flask import current_app
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -12,6 +14,19 @@ class User(db.Model,UserMixin):
     email = db.Column(db.String(120),nullable=False,unique=True)
     password = db.Column(db.String(60),nullable=False)
     role = db.Column(db.String(20),nullable=False,default='employee')
+
+    def get_reset_token(self):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        return s.dumps({'user_id':self.id})
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token,max_age=1800)['user_id']
+        except Exception:
+            return None
+        return User.query.get(user_id)
 
     def __repr__(self):
         return f"User('{self.username}','{self.email}')"
