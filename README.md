@@ -33,21 +33,60 @@ A modern Employee Management System built with **Flask** that allows administrat
 ## 📂 Project Structure
 
 ```
-Employee_manager/
+Employee-Management-System/
 │
-├── app/
-│   ├── templates/
-│   ├── static/
+├── apps/
+│   │
+│   ├── __init__.py
 │   ├── models.py
-│   ├── forms.py
-│   ├── routes.py
-│   └── __init__.py
+│   │
+│   ├── auth/
+│   │   ├── __init__.py
+│   │   ├── forms.py
+│   │   └── routes.py
+│   │
+│   ├── employees/
+│   │   ├── __init__.py
+│   │   ├── forms.py
+│   │   └── routes.py
+│   │
+│   ├── admin/
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   │
+│   ├── main/
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   │
+│   └── utils/
+│       ├── __init__.py
+│       └── helpers.py
+│
+├── templates/
+│   ├── base.html
+│   ├── home.html
+│   ├── about.html
+│   ├── login.html
+│   ├── register.html
+│   ├── reset_request.html
+│   ├── reset_token.html
+│   ├── dashboard.html
+│   ├── add_employee.html
+│   ├── edit_employee.html
+│   ├── employees.html
+│   ├── employee_details.html
+│   └── users.html
+│
+├── static/
+│   └── ...
 │
 ├── instance/
-│   └── site.db
+│   └── site.db              # DON'T upload to GitHub
 │
-├── run.py
+├── .env                    # DON'T upload
+├── .gitignore
 ├── requirements.txt
+├── run.py
 └── README.md
 ```
 
@@ -99,26 +138,10 @@ Open your browser and visit:
 http://127.0.0.1:5000
 ```
 
----
-
-## 📸 Screenshots
-
-- Login Page
-- Register Page
-- Dashboard
-- Employee List
-- Add Employee
-- Update Employee
-
-*(Add screenshots here after uploading.)*
-
----
 
 ## 🎯 Future Improvements
 
 - Profile Picture Upload
-- Employee Roles & Permissions
-- Salary Management
 - Attendance Tracking
 - Email Notifications
 - REST API Support

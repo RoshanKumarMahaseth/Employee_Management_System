@@ -4,17 +4,19 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+from dotenv import load_dotenv
 
+load_dotenv()
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY']='4301173fd46738e1a5a4dd17c5521592'
+app.config['SECRET_KEY']=os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///site.db'
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'auth.login'
 login_manager.login_message_category = 'info'
 login_manager.login_message='Please log in to access this page.'
 login_manager.login_message_category = 'info'
@@ -26,4 +28,11 @@ app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
 mail = Mail(app)
 
 from apps.models import User 
-from apps import routes
+from apps.auth import auth
+from apps.employees import employees
+from apps.admin import admin
+from apps.main import main
+app.register_blueprint(auth)
+app.register_blueprint(employees)
+app.register_blueprint(admin)
+app.register_blueprint(main)

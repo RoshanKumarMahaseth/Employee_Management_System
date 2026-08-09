@@ -2,13 +2,11 @@
 
 {% block content %}
 
-<h2 class="mb-4">Dashboard</h2>
-
 <div class="row g-4">
 
     <!-- Total Employees -->
     <div class="col-md-4">
-        <div class="card shadow-sm text-center">
+        <div class="card shadow-sm text-center h-100">
             <div class="card-body">
                 <h5 class="card-title">Total Employees</h5>
                 <h2 class="fw-bold">{{ total_employees }}</h2>
@@ -18,40 +16,52 @@
 
     <!-- Active Employees -->
     <div class="col-md-4">
-        <div class="card shadow-sm text-center">
+        <div class="card shadow-sm text-center h-100">
             <div class="card-body">
                 <h5 class="card-title">Active Employees</h5>
-                <h2 class="fw-bold text-success">{{ active_employees }}</h2>
+                <h2 class="fw-bold text-success">
+                    {{ active_employees }}
+                </h2>
             </div>
         </div>
     </div>
 
     <!-- Total Users -->
     <div class="col-md-4">
-        <div class="card shadow-sm text-center">
+        <div class="card shadow-sm text-center h-100">
             <div class="card-body">
                 <h5 class="card-title">Total Users</h5>
-                <h2 class="fw-bold text-primary">{{ total_users }}</h2>
+                <h2 class="fw-bold text-primary">
+                    {{ total_users }}
+                </h2>
             </div>
         </div>
     </div>
 
 </div>
 
-<div class="mt-4">
 
-    <a href="{{ url_for('employees') }}" class="btn btn-primary">
+<!-- Dashboard Actions -->
+
+<div class="mt-4 d-flex gap-2 flex-wrap">
+
+    <a href="{{ url_for('employees.employee_list') }}"
+       class="btn btn-primary">
         View Employees
     </a>
 
     {% if current_user.role == 'admin' %}
-        <a href="{{ url_for('employee') }}" class="btn btn-success">
+
+        <a href="{{ url_for('employees.employee') }}"
+           class="btn btn-success">
             Add Employee
         </a>
 
-        <a href="{{ url_for('users') }}" class="btn btn-secondary">
+        <a href="{{ url_for('admin.users') }}"
+           class="btn btn-secondary">
             Manage Users
         </a>
+
     {% endif %}
 
 </div>

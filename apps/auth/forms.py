@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField,BooleanField,ValidationError,IntegerField,DateField,SelectField
-from wtforms.validators import DataRequired,Email,Length,EqualTo
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, ValidationError
+from wtforms.validators import DataRequired, Email, Length, EqualTo
 from apps.models import User
 
 
@@ -27,17 +27,6 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
-class EmployeeForm(FlaskForm):
-    first_name = StringField('First Name',validators=[DataRequired(),Length(min=3,max=20)])
-    last_name = StringField('Last Name',validators=[DataRequired(),Length(min=3,max=20)])
-    email = StringField('Email',validators=[DataRequired(),Email()])
-    phone = StringField('Phone',validators=[DataRequired(),Length(min=10,max=15)])
-    position = StringField('Position',validators=[DataRequired(),Length(min=2,max=50)])
-    salary = IntegerField('Salary',validators=[DataRequired()])
-    joining_date = DateField('Joining Date',validators=[DataRequired()])
-    status = SelectField('Status',choices=[('Active','Active'),('Inactive','Inactive')],validators=[DataRequired()])
-    submit = SubmitField('Submit')
-
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email',validators=[DataRequired(),Email()])
@@ -53,5 +42,3 @@ class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password',validators=[DataRequired(),Length(min=4)])
     confirm_password = PasswordField('Confirm_password',validators=[DataRequired(),EqualTo('password')])
     submit = SubmitField('Reset Password')
-
-

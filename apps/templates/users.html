@@ -2,112 +2,135 @@
 
 {% block content %}
 
-<h2 class="mb-4">Users</h2>
+<div class="card shadow">
 
-{% if users %}
+    <div class="card-header">
+        <h3 class="mb-0">User Management</h3>
+    </div>
 
-<div class="table-responsive">
+    <div class="card-body">
 
-    <table class="table table-bordered table-hover align-middle">
+        {% if users %}
 
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Action</th>
-            </tr>
-        </thead>
+        <div class="table-responsive">
 
-        <tbody>
+            <table class="table table-bordered table-hover align-middle">
 
-            {% for user in users %}
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
-            <tr>
+                <tbody>
 
-                <td>{{ user.id }}</td>
+                    {% for user in users %}
 
-                <td>{{ user.username }}</td>
+                    <tr>
 
-                <td>{{ user.email }}</td>
+                        <td>{{ user.id }}</td>
 
-                <td>
+                        <td>{{ user.username }}</td>
 
-                    {% if user.role == 'admin' %}
+                        <td>{{ user.email }}</td>
 
-                        <span class="badge bg-danger">
-                            Admin
-                        </span>
+                        <td>
 
-                    {% else %}
+                            {% if user.role == 'admin' %}
 
-                        <span class="badge bg-primary">
-                            Employee
-                        </span>
+                                <span class="badge bg-danger">
+                                    Admin
+                                </span>
 
-                    {% endif %}
+                            {% else %}
 
-                </td>
+                                <span class="badge bg-primary">
+                                    Employee
+                                </span>
 
-                <td>
+                            {% endif %}
 
-                    {% if user.role == 'admin' %}
+                        </td>
 
-                        {% if users | selectattr('role', 'equalto', 'admin') | list | length > 1 %}
+                        <td>
 
-                            <form action="{{ url_for('change_role', user_id=user.id) }}"
-                                  method="POST">
+                            {% if user.role == 'admin' %}
 
-                                <button type="submit"
-                                        class="btn btn-sm btn-warning">
-                                    Make Employee
-                                </button>
+                                {% if users | selectattr('role', 'equalto', 'admin') | list | length > 1 %}
 
-                            </form>
+                                    <form
+                                        action="{{ url_for('admin.change_role', user_id=user.id) }}"
+                                        method="POST"
+                                        class="d-inline">
 
-                        {% else %}
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-warning">
 
-                            <button type="button"
-                                    class="btn btn-sm btn-secondary"
-                                    disabled>
-                                Last Admin
-                            </button>
+                                            Make Employee
 
-                        {% endif %}
+                                        </button>
 
-                    {% else %}
+                                    </form>
 
-                        <form action="{{ url_for('change_role', user_id=user.id) }}"
-                              method="POST">
+                                {% else %}
 
-                            <button type="submit"
-                                    class="btn btn-sm btn-success">
-                                Make Admin
-                            </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-secondary"
+                                        disabled>
 
-                        </form>
+                                        Last Admin
 
-                    {% endif %}
+                                    </button>
 
-                </td>
+                                {% endif %}
 
-            </tr>
+                            {% else %}
 
-            {% endfor %}
+                                <form
+                                    action="{{ url_for('admin.change_role', user_id=user.id) }}"
+                                    method="POST"
+                                    class="d-inline">
 
-        </tbody>
+                                    <button
+                                        type="submit"
+                                        class="btn btn-sm btn-success">
 
-    </table>
+                                        Make Admin
+
+                                    </button>
+
+                                </form>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+            <div class="alert alert-info mb-0">
+                No users found.
+            </div>
+
+        {% endif %}
+
+    </div>
 
 </div>
-
-{% else %}
-
-<div class="alert alert-info">
-    No users found.
-</div>
-
-{% endif %}
 
 {% endblock %}

@@ -2,108 +2,162 @@
 
 {% block content %}
 
-<div class="col-md-7">
+<div class="card shadow">
 
-    <div class="card shadow">
+    <div class="card-header">
+        <h3 class="mb-0">Add Employee</h3>
+    </div>
 
-        <div class="card-header">
-            <h3 class="mb-0">Add Employee</h3>
-        </div>
+    <div class="card-body">
 
-        <div class="card-body">
+        <form method="POST">
 
-            <form method="POST">
+            {{ form.hidden_tag() }}
 
-                {{ form.hidden_tag() }}
+            <div class="row">
 
-                <div class="row">
+                <!-- First Name -->
+                <div class="col-md-6 mb-3">
 
-                    <div class="col-md-6 mb-3">
-                        {{ form.first_name.label(class="form-label") }}
-                        {{ form.first_name(class="form-control") }}
+                    {{ form.first_name.label(class="form-label") }}
 
-                        {% for error in form.first_name.errors %}
-                            <div class="text-danger small">{{ error }}</div>
-                        {% endfor %}
-                    </div>
+                    {{ form.first_name(class="form-control") }}
 
-                    <div class="col-md-6 mb-3">
-                        {{ form.last_name.label(class="form-label") }}
-                        {{ form.last_name(class="form-control") }}
-
-                        {% for error in form.last_name.errors %}
-                            <div class="text-danger small">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-
-                </div>
-
-                <div class="mb-3">
-                    {{ form.email.label(class="form-label") }}
-                    {{ form.email(class="form-control") }}
-
-                    {% for error in form.email.errors %}
-                        <div class="text-danger small">{{ error }}</div>
+                    {% for error in form.first_name.errors %}
+                        <div class="text-danger small">
+                            {{ error }}
+                        </div>
                     {% endfor %}
+
                 </div>
 
-                <div class="mb-3">
-                    {{ form.phone.label(class="form-label") }}
-                    {{ form.phone(class="form-control") }}
 
-                    {% for error in form.phone.errors %}
-                        <div class="text-danger small">{{ error }}</div>
+                <!-- Last Name -->
+                <div class="col-md-6 mb-3">
+
+                    {{ form.last_name.label(class="form-label") }}
+
+                    {{ form.last_name(class="form-control") }}
+
+                    {% for error in form.last_name.errors %}
+                        <div class="text-danger small">
+                            {{ error }}
+                        </div>
                     {% endfor %}
+
                 </div>
 
-                <div class="row">
+            </div>
 
-                    <div class="col-md-6 mb-3">
-                        {{ form.position.label(class="form-label") }}
-                        {{ form.position(class="form-control") }}
 
-                        {% for error in form.position.errors %}
-                            <div class="text-danger small">{{ error }}</div>
-                        {% endfor %}
+            <!-- Email -->
+            <div class="mb-3">
+
+                {{ form.email.label(class="form-label") }}
+
+                {{ form.email(class="form-control") }}
+
+                {% for error in form.email.errors %}
+                    <div class="text-danger small">
+                        {{ error }}
                     </div>
+                {% endfor %}
 
-                    <div class="col-md-6 mb-3">
-                        {{ form.salary.label(class="form-label") }}
-                        {{ form.salary(class="form-control") }}
+            </div>
 
-                        {% for error in form.salary.errors %}
-                            <div class="text-danger small">{{ error }}</div>
-                        {% endfor %}
+
+            <!-- Phone -->
+            <div class="mb-3">
+
+                {{ form.phone.label(class="form-label") }}
+
+                {{ form.phone(class="form-control") }}
+
+                {% for error in form.phone.errors %}
+                    <div class="text-danger small">
+                        {{ error }}
                     </div>
+                {% endfor %}
 
-                </div>
+            </div>
 
-                <div class="mb-3">
-                    {{ form.joining_date.label(class="form-label") }}
-                    {{ form.joining_date(class="form-control") }}
 
-                    {% for error in form.joining_date.errors %}
-                        <div class="text-danger small">{{ error }}</div>
+            <div class="row">
+
+                <!-- Position -->
+                <div class="col-md-6 mb-3">
+
+                    {{ form.position.label(class="form-label") }}
+
+                    {{ form.position(class="form-control") }}
+
+                    {% for error in form.position.errors %}
+                        <div class="text-danger small">
+                            {{ error }}
+                        </div>
                     {% endfor %}
+
                 </div>
 
-                <!-- Status -->
-                <div class="mb-3">
-                    {{ form.status.label(class="form-label") }}
-                    {{ form.status(class="form-select") }}
 
-                    {% for error in form.status.errors %}
-                        <div class="text-danger small">{{ error }}</div>
+                <!-- Salary -->
+                <div class="col-md-6 mb-3">
+
+                    {{ form.salary.label(class="form-label") }}
+
+                    {{ form.salary(class="form-control") }}
+
+                    {% for error in form.salary.errors %}
+                        <div class="text-danger small">
+                            {{ error }}
+                        </div>
                     {% endfor %}
+
                 </div>
 
-                <div class="d-grid">
-                    {{ form.submit(class="btn btn-primary") }}
-                </div>
+            </div>
 
-            </form>
 
-        </div>
+            <!-- Joining Date -->
+            <div class="mb-3">
+
+                {{ form.joining_date.label(class="form-label") }}
+
+                {{ form.joining_date(class="form-control") }}
+
+                {% for error in form.joining_date.errors %}
+                    <div class="text-danger small">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Status -->
+            <div class="mb-3">
+
+                {{ form.status.label(class="form-label") }}
+
+                {{ form.status(class="form-select") }}
+
+                {% for error in form.status.errors %}
+                    <div class="text-danger small">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Submit -->
+            <div class="d-grid">
+
+                {{ form.submit(class="btn btn-primary") }}
+
+            </div>
+
+        </form>
 
     </div>
 
