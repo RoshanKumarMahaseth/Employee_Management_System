@@ -250,3 +250,11 @@ def reset_token(token):
         return redirect(url_for('login'))
 
     return render_template('reset_token.html',title='Reset Password',form=form)
+
+
+@app.route('/employee/<int:employee_id>')
+@login_required
+def employee_details(employee_id):
+    employee = Employee.query.get_or_404(employee_id)
+
+    return render_template('employee_details.html',title='Employee Details',employee=employee)
