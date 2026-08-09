@@ -1,7 +1,7 @@
 from flask import render_template,redirect,url_for,request,flash
 from apps import app,db,bcrypt
 from apps.forms import RegisterForm,LoginForm,EmployeeForm,RequestResetForm,ResetPasswordForm
-from apps.models import User,Employee
+from apps.models import User,Employee,ActivityLog
 from flask_login import login_user,current_user,logout_user,login_required
 from functools import wraps
 from flask_mail import Message
@@ -75,6 +75,17 @@ def dashboard():
     return render_template('dashboard.html',title='Dashboard',total_employees=total_employees,active_employees=active_employees,total_users=total_users)
 
 
+
+def log_activity(action):
+    activity = ActivityLog(
+        action=action,
+        user_id=current_user.id
+    )
+    db.session.add(activity)
+    db.session.commit()
+
+
+
 @app.route('/employee',methods=['GET','POST'])
 @admin_required
 def employee():
@@ -92,6 +103,7 @@ def employee():
         )
         db.session.add(employee)
         db.session.commit()
+        log_activity(f'Added employee: {employee.first_name} {employee.last_name}')
         flash('Employee has been added successfully!','success')
         return redirect(url_for('dashboard'))
     return render_template('add_employee.html',title='Employee',form=form)
@@ -258,3 +270,4 @@ def employee_details(employee_id):
     employee = Employee.query.get_or_404(employee_id)
 
     return render_template('employee_details.html',title='Employee Details',employee=employee)
+

@@ -1,5 +1,5 @@
 from itsdangerous import URLSafeSerializer as Serializer
-from datetime import date
+from datetime import date,datetime
 from apps import db,login_manager
 from flask_login import UserMixin,current_user
 from flask import current_app
@@ -44,3 +44,14 @@ class Employee(db.Model):
 
     def __repr__(self):
         return f"Employee('{self.first_name}','{self.last_name}')"
+
+
+class ActivityLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    action = db.Column(db.String(255), nullable=False)
+    timestamp = db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False )
+    user = db.relationship('User',backref='activity_logs')
+
+    def __repr__(self):
+        return f"ActivityLog('{self.action}', '{self.timestamp}')"
